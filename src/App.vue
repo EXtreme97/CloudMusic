@@ -55,6 +55,7 @@
       <a-layout-sider theme="light">Sider</a-layout-sider>
       <a-layout-content><router-view></router-view></a-layout-content>
     </a-layout>
+    <a-layout-footer>Footer</a-layout-footer>
   </a-layout>
 </template>
 <script setup lang="ts">
@@ -66,7 +67,7 @@ import {
   SettingOutlined,
   MailOutlined,
   CloseOutlined,
-  MinusOutlined
+  MinusOutlined,
 } from "@ant-design/icons-vue";
 </script>
 <style lang="less" scoped>
