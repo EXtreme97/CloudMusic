@@ -622,6 +622,13 @@ async-validator@^3.3.0:
   resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-3.5.2.tgz#68e866a96824e8b2694ff7a831c1a25c44d5e500"
   integrity sha512-8eLCg00W9pIRZSB781UUX/H6Oskmm8xloZfr09lz5bikRpBVDlJ3hRVuxxP1SxcwsEYfJ4IU8Q19Y8/893r3rQ==
 
+axios@^0.26.0:
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.0.tgz#9a318f1c69ec108f8cd5f3c3d390366635e13928"
+  integrity sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og==
+  dependencies:
+    follow-redirects "^1.14.8"
+
 babel-walk@3.0.0-canary-5:
   version "3.0.0-canary-5"
   resolved "https://registry.npmmirror.com/babel-walk/-/babel-walk-3.0.0-canary-5.tgz#f66ecd7298357aee44955f235a6ef54219104b11"
@@ -946,6 +953,11 @@ estree-walker@^2.0.1, estree-walker@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npmmirror.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
   integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
+
+follow-redirects@^1.14.8:
+  version "1.14.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
+  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
 
 fsevents@~2.3.2:
   version "2.3.2"
@@ -1666,6 +1678,11 @@ vscode-vue-languageservice@0.29.8:
     vscode-languageserver-textdocument "^1.0.1"
     vscode-pug-languageservice "0.29.8"
     vscode-typescript-languageservice "0.29.8"
+
+vue-axios@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-3.4.1.tgz#e092ec4060b42e941ea5059df9b8f09058c3eea9"
+  integrity sha512-8YZYUOQrBEJktxoQtrM4rr2LfVcDaWfJqv8MqtLlgLlkuBvCYKFSZSo6AXQ4YcCzdgccDqstmuaEh68lcH9xWA==
 
 vue-router@^4.0.12:
   version "4.0.12"
