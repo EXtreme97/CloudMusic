@@ -3,18 +3,22 @@
     <a-layout-header>
       <h1 class="logo"><a href="#"></a></h1>
       <div class="search">
-        <a-button danger shape="circle" size="small">
+        <a-button danger shape="circle">
           <template #icon>
             <LeftOutlined style="color: #fff" />
           </template>
         </a-button>
-        <a-button danger shape="circle" size="small">
+        <a-button danger shape="circle">
           <template #icon>
             <RightOutlined style="color: #fff" />
           </template>
         </a-button>
-        <a-input-search></a-input-search>
-        <a-button danger shape="circle" size="small">
+        <a-input>
+          <template #prefix>
+            <SearchOutlined type="user" />
+          </template>
+        </a-input>
+        <a-button danger shape="circle">
           <template #icon>
             <AudioOutlined style="color: #fff" />
           </template>
@@ -24,27 +28,37 @@
         <a-avatar size="small">
           <template #icon><UserOutlined /></template>
         </a-avatar>
-        <a-button type="text" danger shape="circle" size="small">
+        <a-button type="text" danger shape="circle" size="large">
           <template #icon>
-            <AudioOutlined style="color: #fff" />
+            <IconFont type="icon-clothes" style="color: #fff" />
           </template>
         </a-button>
-        <a-button type="text" danger shape="circle" size="small">
+        <a-button type="text" danger shape="circle" size="large">
           <template #icon>
             <SettingOutlined style="color: #fff" />
           </template>
         </a-button>
-        <a-button type="text" danger shape="circle" size="small">
+        <a-button type="text" danger shape="circle" size="large">
           <template #icon>
             <MailOutlined style="color: #fff" />
           </template>
         </a-button>
-        <a-button type="text" danger shape="circle" size="small">
+        <a-button type="text" danger shape="circle" size="large">
+          <template #icon>
+            <IconFont type="icon-chuangkouhua-01" style="color: #fff" />
+          </template>
+        </a-button>
+        <a-button type="text" danger shape="circle" size="large">
           <template #icon>
             <MinusOutlined style="color: #fff" />
           </template>
         </a-button>
-        <a-button type="text" danger shape="circle" size="small">
+        <a-button type="text" danger shape="circle" size="large">
+          <template #icon>
+            <IconFont type="icon-chuangkouhua-02" style="color: #fff" />
+          </template>
+        </a-button>
+        <a-button type="text" danger shape="circle" size="large">
           <template #icon>
             <CloseOutlined style="color: #fff" />
           </template>
@@ -68,7 +82,13 @@ import {
   MailOutlined,
   CloseOutlined,
   MinusOutlined,
+  SearchOutlined,
+  createFromIconfontCN,
 } from "@ant-design/icons-vue";
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_3186649_76j8ysez5e2.js",
+});
 </script>
 <style lang="less" scoped>
 #app {
@@ -92,6 +112,10 @@ import {
       .search {
         display: flex;
         align-items: center;
+        .ant-input-affix-wrapper {
+          border-radius: 22px;
+        }
+
         .ant-btn {
           background-color: #d93b3b;
           margin: 0 3px;
@@ -100,6 +124,12 @@ import {
       .tools {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+        flex: 1;
+
+        .ant-btn {
+          margin: 0 3px;
+        }
       }
     }
   }
