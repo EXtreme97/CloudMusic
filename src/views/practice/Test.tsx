@@ -1,5 +1,5 @@
 import { defineComponent, ref } from "vue";
-import "../assets/less/Home.less";
+import "../../assets/less/Home.less";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
 
 export default defineComponent({
@@ -13,9 +13,6 @@ export default defineComponent({
   setup(props) {
     const moviesList = props.movies.map((movie) => <li>{movie}</li>);
     const count = ref(0);
-    const IconFont = createFromIconfontCN({
-      scriptUrl: "//at.alicdn.com/t/font_3186649_fltltthwef.js",
-    });
 
     return () => (
       <div class={"home"}>
@@ -27,9 +24,8 @@ export default defineComponent({
         >
           count is:{count.value}
         </a-button>
-        
+
         <ul>{moviesList}</ul>
-        <a-button type="dashed">换一换</a-button>
       </div>
     );
   },
