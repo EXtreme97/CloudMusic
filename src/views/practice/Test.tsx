@@ -1,6 +1,5 @@
 import { defineComponent, ref } from "vue";
 import "../../assets/less/Home.less";
-import { createFromIconfontCN } from "@ant-design/icons-vue";
 
 export default defineComponent({
   name: "home-component",
