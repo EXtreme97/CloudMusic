@@ -1,6 +1,10 @@
 import { defineComponent, ref } from "vue";
 import "../../assets/less/Home.less";
 
+import CpnChild from "./CpnChild.vue";
+import Cpn from "./Cpn.vue";
+import CpnTsx from "./CpnTsx";
+
 export default defineComponent({
   name: "home-component",
   props: {
@@ -12,6 +16,9 @@ export default defineComponent({
   setup(props) {
     const moviesList = props.movies.map((movie) => <li>{movie}</li>);
     const count = ref(0);
+    const emitTest = (value: any) => {
+      console.log(value);
+    };
 
     return () => (
       <div class={"home"}>
@@ -23,7 +30,9 @@ export default defineComponent({
         >
           count is:{count.value}
         </a-button>
-
+        <Cpn message="hello"></Cpn>
+        <CpnChild message="hello" {...{ emitTest }}></CpnChild>
+        <CpnTsx message="hello"></CpnTsx>
         <ul>{moviesList}</ul>
       </div>
     );
