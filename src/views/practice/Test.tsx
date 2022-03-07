@@ -1,4 +1,4 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent, provide, readonly, ref } from "vue";
 import "../../assets/less/Home.less";
 
 import CpnChild from "./CpnChild.vue";
@@ -19,7 +19,7 @@ export default defineComponent({
     const emitTest = (value: any) => {
       console.log(value);
     };
-
+    provide("count", count);
     return () => (
       <div class={"home"}>
         <a-button
@@ -31,7 +31,7 @@ export default defineComponent({
           count is:{count.value}
         </a-button>
         <Cpn message="hello"></Cpn>
-        <CpnChild message="hello" {...{ emitTest }}></CpnChild>
+        <CpnChild message="hello"></CpnChild>
         <CpnTsx message="hello"></CpnTsx>
         <ul>{moviesList}</ul>
       </div>
