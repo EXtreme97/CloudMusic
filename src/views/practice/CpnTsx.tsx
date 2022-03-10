@@ -1,15 +1,19 @@
-import { onMounted } from "vue";
-import { onBeforeUpdate } from "vue";
-import { onUpdated } from "vue";
-import { onUnmounted } from "vue";
-import { onRenderTriggered } from "vue";
-import { onActivated } from "vue";
-import { onDeactivated } from "vue";
-import { onRenderTracked } from "vue";
-import { onErrorCaptured } from "vue";
-import { onBeforeUnmount } from "vue";
-import { onBeforeMount } from "vue";
-import { defineComponent, inject, ref } from "vue";
+import {
+  defineComponent,
+  inject,
+  ref,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onUnmounted,
+  onRenderTriggered,
+  onActivated,
+  onDeactivated,
+  onRenderTracked,
+  onErrorCaptured,
+  onBeforeMount,
+  onBeforeUnmount,
+} from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
 import Logo from "../../assets/img/logo.svg";
 export default defineComponent({
@@ -25,7 +29,7 @@ export default defineComponent({
     const rootRef = ref(null);
 
     setInterval(() => {
-      visible.value = !visible.value;
+      // visible.value = !visible.value;
     }, 1000);
 
     const change = (event: any, value: any) => {
