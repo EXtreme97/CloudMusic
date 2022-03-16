@@ -1789,7 +1789,7 @@ Error包含三个属性：
 
 这个函数抛出了异常，但是我们并没有对这个异常进行处理，那么这个异常会继续传递到上一个函数调用中；而如果到了最顶层（全局）的代码中依然没有对这个异常的处理代码，这个时候就会报错并且终止程序的运行。但是很多情况下当出现异常时，我们并不希望程序直接推出，而是希望可以正确的处理异常：这个时候我们就可以使用**try catch**。在ES10（ES2019）中，catch后面绑定的error可以省略。当然，如果有一些必须要执行的代码，我们可以使用finally来执行：**finally表示最终一定会被执行的代码结构；如果try和finally中都有返回值，那么会使用finally当中的返回值。**
 
-### 模块化的历史 
+### 模块化的历史
 
 1. 在网页开发的早期，Brendan Eich开发JavaScript仅仅作为一种脚本语言，做一些简单的表单验证或动画实现等，那个时候代码还是很少的：这个时候我们只需要讲JavaScript代码写到标签中即可；并没有必要放到多个文件中来编写；甚至流行：通常来说 JavaScript 程序的长度只有一行。
 2. 随着前端和JavaScript的快速发展，JavaScript代码变得越来越复杂了：ajax的出现，前后端开发分离，意味着后端返回数据后，我们需要通过JavaScript进行前端页面的渲染；SPA的出现，前端页面变得更加复杂：包括前端路由、状态管理等等一系列复杂的需求需要通过JavaScript来实现；包括Node的实现，JavaScript编写复杂的后端程序，没有模块化是致命的硬伤。
@@ -1875,7 +1875,7 @@ npm的配置文件：**package.json**，方式一：手动从零创建项目，n
 * **main**属性：设置程序的入口。这个入口和webpack打包的入口并不冲突；它是在你发布一个模块的时候会用到的；比如我们使用axios模块 const axios = require('axios');实际上是找到对应的main属性查找文件的；
 * **scripts**属性：scripts属性用于配置一些脚本命令，以键值对的形式存在；配置后我们可以通过 npm run 命令的key来执行这个命令；**npm start和npm run start是等价的**；对于常用的**start、 test、stop、restart**可以省略掉run直接通过 npm start等方式运行；
 * **dependencies**属性：dependencies属性是指定无论开发环境还是生成环境都需要依赖的包；
-* **devDependencies**属性：一些包在生成环境是不需要的，比如webpack、babel等；这个时候我们会通过`npm install webpack --save-dev`，将它安装到devDependencies属性中；
+* **devDependencies**属性：一些包在生成环境是不需要的，比如webpack、babel等；这个时候我们会通过 `npm install webpack --save-dev`，将它安装到devDependencies属性中；
 * peerDependencies属性：还有一种项目依赖关系是**对等依赖**，也就是你依赖的一个包，它必须是以另外一个宿主包为前提的；比如element-plus是依赖于vue3的，ant design是依赖于react、react-dom；
 * **engines**属性：pengines属性用于指定Node和NPM的版本号；
 * **browserslist**属性：p用于配置打包后的JavaScript浏览器的兼容情况，参考；否则我们需要手动的添加polyfills来让支持某些语法；
@@ -1887,7 +1887,7 @@ npm的包通常需要遵从**semver**版本规范，semver版本规范是X.Y.Z�
 * X主版本号（major）：当你做了不兼容的 API 修改（可能不兼容之前的版本）；
 * Y次版本号（minor）：当你做了向下兼容的功能性新增（新功能增加，但是兼容之前的版本）；
 * Z修订号（patch）：当你做了向下兼容的问题修正（没有新功能，修复了之前版本的bug）。
-* `^`和`~`的区别：`^`x.y.z：表示x是保持不变的，y和z永远安装最新的版本；`~`x.y.z：表示x和y保持不变的，z永远安装最新的版本。
+* `^`和 `~`的区别：`^`x.y.z：表示x是保持不变的，y和z永远安装最新的版本；`~`x.y.z：表示x和y保持不变的，z永远安装最新的版本。
 
 **npm install 命令：**
 
@@ -2469,3 +2469,160 @@ eventBus.emit("abc", 123)
 eventBus.off("abc", handleCallback)
 eventBus.emit("abc", 123)
 ```
+
+# Vue3
+
+### 声明式和命令式
+
+原生开发和Vue开发的模式和特点，我们会发现是完全不同的，这里其实涉及到两种不同的编程范式：**命令式编程和声明式编程**。目前Vue、React、Angular的编程模式，我们称之为声明式编程。
+
+### MVVM模型
+
+MVVM是Model-View-ViewModel的简称，是目前非常流行的架构模式。通常情况下，我们也经常称**Vue是一个MVVM的框架**。Vue官方其实有说明，Vue虽然**并没有完全遵守MVVM**的模型，但是整个设计是受到它的启发的。
+
+![](image/learningNote/1647416186872.png)
+
+### Vue基本属性
+
+在使用`createApp`的时候，我们传入了一个对象，接下来我们详细解析一下之前传入的属性分别代表什么含义。
+
+**template**属性：表示的是Vue需要帮助我们渲染的模板信息。它里面有很多的HTML标签，这些标签会替换掉我们挂载到的元素（比如id为app的div）的
+innerHTML；模板中有一些奇怪的语法，比如 {{}}，比如 @click，这些都是模板特有的语法。Vue提供了两种方式：
+
+* **使用script标签**，并且标记它的类型为 **x-template**；
+* 使用**任意标签**（通常使用template标签，因为不会被浏览器渲染），**设置id。**
+
+![](image/learningNote/1647416526835.png)
+
+**data**属性：是传入一个**函数**，并且该函数需要返回一个对象，data中返回的对象会被Vue的**响应式系统劫持**，之后对该对象的修改或者访问都会在劫持中被处理：
+
+* 在Vue2.x的时候，也可以传入一个对象（虽然官方推荐是一个函数）；
+* 在Vue3.x的时候，**必须**传入一个函数，否则就会直接在浏览器中报错。
+
+**methods**属性：是一个对象，通常我们会在这个对象中定义很多的方法：这些方法可以被绑定到 template 模板中；在该方法中，我们可以使用this关键字来直接访问到data中返回的对象的属性。
+
+![](image/learningNote/1647416814312.png)
+
+在methods中要使用data返回对象中的数据：**那么这个this是必须有值的**，并且应该可以通过this获取到data返回对象中的数据。**这个this不可以是window，因为window中我们无法获取到data返回对象中的数据**；但是**如果我们使用箭头函数，那么这个this就会是window了**；为什么是window呢？这里涉及到箭头函数使用this的查找规则，它会在自己的上层作用于中来查找this，最终刚好找到的是script作用于中的this，所以就是window。
+
+**props、computed、watch、emits、setup**；也包括很多的**生命周期函数。**
+
+### Mustache双大括号语法
+
+把数据显示到模板（template）中，使用最多的语法是 “**Mustache**”语法 (双大括号) 的文本插值。data返回的对象是有添加到Vue的响应式系统中，当data中的数据发生改变时，对应的内容也会发生更新，**也可以插入一个JavaScript的表达式**。
+
+![](image/learningNote/1647417598856.png)
+
+### v-once指令
+
+**v-once用于指定元素或者组件只渲染一次**，当数据发生变化时，元素或者组件以及其所有的子元素将视为静态内容并且跳过，该指令可以用于性能优化。如果是**子节点，也是只会渲染一次**。
+
+### v-text指令
+
+用于更新元素的 textContent。
+
+![](image/learningNote/1647417787320.png)
+
+### v-html
+
+如果我们展示的内容本身是 html 的，那么vue并不会对其进行特殊的解析。如果我们希望这个内容**被Vue可以解析**出来，那么可以使用 **v-html** 来展示。
+
+![](image/learningNote/1647417983033.png)
+
+### v-pre
+
+v-pre用于**跳过元素和它的子元素的编译过程**，显示原始的Mustache标签，跳过不需要编译的节点，加快编译的速度。
+
+### v-cloak
+
+这个指令保持在元素上直到关联组件实例结束编译。它和 CSS 规则如 `[v-cloak] { display: none }`一起用时，这个指令**可以隐藏未编译的 Mustache 标签直到组件实例准备完毕**。
+
+![](image/learningNote/1647418250687.png)
+
+### v-bind绑定属性
+
+绑定属性我们使用v-bind，比如**动态绑定a元素的href属性**；比如动态绑定img元素的src属性，**缩写：**`:`。
+
+预期：any (with argument) | Object (without argument)
+参数：attrOrProp (optional)
+修饰符： .camel - 将 kebab-case attribute 名转换为 camelCase。用法：动态地绑定一个或多个 attribute，或一个组件 prop 到表达式。
+
+**绑定class**有两种方式：
+
+* **对象写法**，我们可以传给 :class (v-bind:class 的简写) 一个对象，以动态地切换 class。
+* **数组写法**，我们可以把一个数组传给 :class，以应用一个 class 列表。
+
+![](image/learningNote/1647418680617.png)
+
+![](image/learningNote/1647418754685.png)
+
+我们可以利用**v-bind:style**来绑定一些CSS内联样式：这次因为某些样式我们需要根据数据动态来决定；比如某段文字的颜色，大小等等；CSS property 名可以用驼**峰式 (camelCase) 或短横线分隔 (kebab-case，记得用引号括起来)** 来命名，**绑定class**有两种方式：
+
+* 对象语法，
+* 数组语法。
+
+![](image/learningNote/1647419294281.png)
+
+**动态绑定属性**
+
+在某些情况下，我们属性的名称可能也不是固定的：前端我们无论绑定src、href、class、style，属性名称都是固定的；如果属性名称不是固定的，我们可以使用 **:[属性名]=“值”** 的格式来定义；这种绑定的方式，我们称之为动态绑定属性。
+
+**绑定一个对象：**
+
+如果我们希望将一个对象的所有属性，绑定到元素上的所有属性，我们可以直接使用 v-bind 绑定一个 对象。对象会被拆解成div的各个属性。
+
+### v-on绑定事件
+
+前端开发中，我们需要经常和用户进行各种各样的交互，这个时候，我们就必须监听用户发生的事件，比如点击、拖拽、键盘事件，在Vue中使用**v-on指令**监听事件。
+
+![](image/learningNote/1647419672974.png)
+
+![](image/learningNote/1647419737933.png)
+
+**v-on参数传递：**
+
+当通过methods中定义方法，以供@click调用时，需要注意参数问题：
+
+* 情况一：如果该方法不需要额外参数，那么方法后的()可以不添加。但是注意：如果方法本身中有一个参数，那么会默认将原生事件event参数传递进去；
+* 情况二：如果需要同时传入某个参数，同时需要event时，可以通过$event传入事件。
+
+### 条件渲染
+
+Vue提供了下面的指令来进行条件判断：**v-if**、**v-else**、**v-else-if**、**v-show。**
+
+**v-if、v-else、v-else-if**用于根据条件来渲染某一块的内容：这些内容只有在条件为true时，才会被渲染出来，这三个指令与JavaScript的条件语句if、else、else if类似；v-if是惰性的；当条件为false时，其判断的内容**完全不会被渲染或者会被销毁掉**；当条件为true时，才会**真正渲染条件块中的内容**。**template元素**可以当做不可见的包裹元素，并且在v-if上使用，但是最终**template不会被渲染出来。**
+
+**v-show**和v-if的用法看起来是一致的，也是根据一个条件决定是否显示元素或者组件。
+
+**v-show和v-if的区别：**
+
+* 用法上的区别：v-show是不支持template；v-show不可以和v-else一起使用；
+* 本质的区别：**v-show元素无论是否需要显示到浏览器上，它的DOM实际都是有渲染的**，只是通过CSS的**display属性**来进行
+  切换；v-if当条件为false时，其对应的原生**不会被渲染到DOM**中。
+* 如果原生需要在显示和隐藏之间**频繁的切换**，那么使用**v-show**；如果**不会频繁的发生切换**，那么使用**v-if**。
+
+### v-for
+
+v-for的基本格式是 "**item in 数组**"：数组通常是来自data或者prop，也可以是其他方式；item是我们给每项元素起的一个别名，这个别名可以自定来定义。如果我们需要索引，可以使用格式： "**(item, index) in 数组**"。
+
+v-for也**支持遍历对象**，并且支持有一二三个参数：
+
+* 一个参数： "value in object";
+* 二个参数： "(value, key) in object";
+* 三个参数： "(value, key, index) in object";
+
+v-for同时也**支持数字的遍历**：每一个item都是一个数字；
+
+**数组更新检测**：Vue 将被侦听的数组的变更方法进行了包裹，所以它们也将会触发视图更新。这些被包裹过的方法包括：push()、pop()、shift()、unshift()、splice()、sort()、reverse()。前面的方法**会直接修改原来的数组，但是某些方法不会替换原来的数组**，而是会生成新的数组，比如 filter()、concat() 和 slice()。
+
+**v-for中的key的作用**：在使用v-for进行列表渲染时，我们通常会给元素或者组件绑定一个key属性。这个key属性有什么作用呢？我们先来看一下**官方的解释**：**key属性主要用在Vue的虚拟DOM算法，在新旧nodes对比时辨识VNodes**；如果不使用key，Vue会使用一种最大限度减少动态元素并且尽可能的尝试就地修改/复用相同类型元素的算法；而使用key时，它会基于key的变化重新排列元素顺序，并且会移除/销毁key不存在的元素。
+
+VNode的全称是Virtual Node，也就是虚拟节点；事实上，无论是组件还是元素，它们最终在Vue中表示出来的都是一个个VNode；**VNode的本质是一个JavaScript的对象。![](image/learningNote/1647420942300.png)**
+
+如果我们不只是一个简单的div，而是有一大堆的元素，那么它们应该会形成一个VNode Tree。
+
+![](image/learningNote/1647421021281.png)
+
+Vue在进行diff算法的时候，会尽量利用我们的key来进行优化操作：在**没有key的时候我们的效率是非常低效**的；在进行**插入或者重置顺序**的时候，保持相同的key可以让diff算法更加的高效。
+
+![](image/learningNote/1647421227823.png)
