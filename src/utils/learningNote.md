@@ -2626,3 +2626,86 @@ VNode的全称是Virtual Node，也就是虚拟节点；事实上，无论是组
 Vue在进行diff算法的时候，会尽量利用我们的key来进行优化操作：在**没有key的时候我们的效率是非常低效**的；在进行**插入或者重置顺序**的时候，保持相同的key可以让diff算法更加的高效。
 
 ![](image/learningNote/1647421227823.png)
+
+### computed
+
+* 选项：computed，
+* 类型：{ [key: string]: Function | { get: Function, set: Function } }
+
+计算属性和methods的实现看起来是差别是不大的，而且我们多次提到**计算属性有缓存**的。这是因为计算属性会基于它们的依赖关系进行缓存，**在数据不发生变化时，计算属性是不需要重新计算的；但是如果依赖的数据发生变化，计算属性依然会重新进行计算**。计算属性在大多数情况下，只需要一个**getter方法**即可，所以我们会将计算属性直接写成一个函数。如果我们确实想设置计算属性的值，这个时候我们也可以给计算属性设置一个setter的方法。
+
+### watch
+
+在data返回的对象中定义了数据，这个数据通过插值语法等方式绑定到template中，当数据变化时，template会自动进行更新来显示最新的数据；但是在某些情况下，我们希望在**代码逻辑中监听某个数据的变化，这个时候就需要用侦听器watch来完成了。**
+
+* 选项：watch，
+* 类型：{ [key: string]: string | Function | Object | Array}
+
+这是因为默认情况下，watch只是在侦听info的引用变化，对于内部属性的变化是不会做出响应的：这个时候我们可以使用一个**选项deep进行更深层的侦听**；注意前面watch里面侦听的属性对应的也可以是一个Object；
+
+还有另外一个属性，是**希望一开始的就会立即执行一次：个时候我们使用immediate选项。**
+
+```javascript
+watch: {
+  // 深度侦听/立即执行(一定会执行一次)
+info: {
+    handler: function(newInfo, oldInfo) {
+      console.log("newValue:", newInfo.nba.name, "oldValue:", oldInfo.nba.name);
+    },
+    deep: true, // 深度侦听
+immediate: true // 立即执行
+}
+},
+```
+
+
+```javascript
+watch: {
+        info(newValue, oldValue) {
+          console.log(newValue, oldValue);
+        },
+        "info.name": function(newName, oldName) {
+          console.log(newName, oldName);
+        },
+        "friends[0].name": function(newName, oldName) {
+          console.log(newName, oldName);
+        },
+        friends: {
+          handler(newFriends, oldFriend) {
+          },
+          deep: true
+        }
+      },
+```
+
+### v-model
+
+v-model指令可以在表单 input、textarea以及select元素上创建双向数据绑定，它会根据控件类型自动选取正确的方法来更新元素，尽管有些神奇，**但 v-model 本质上不过是语法糖**，它负责监听用户的输入事件来更新数据，v-model的原理其实是背后有**两个操作**：
+
+* v-bind绑定value属性的值；
+* v-on绑定input事件监听到函数中，函数会获取最新的值赋值到绑定的属性中。
+
+![](image/learningNote/1647570625086.png)
+
+**lazy修饰符**：
+
+默认情况下，v-model在进行双向绑定时，绑定的是input事件，那么会在每次内容输入后就将最新的值和绑定的属性进行同步；**如果我们在v-model后跟上lazy修饰符，那么会将绑定的事件切换为 change 事件，只有在提交时（比如回车）才会触发**。
+
+**number 修饰符：**
+
+**v-model绑定的值默认string类型**，即使在我们设置type为number也是string类型；**如果我们希望转换为数字类型，那么可以使用 .number 修饰符**：另外，在我们进行逻辑判断时，如果是一个string类型，在可以转化的情况下会进行隐式转换的：下面的score在进行判断的过程中会进行隐式转化的。
+
+**trim修饰符：**
+
+自动过滤用户输入的守卫空白字符，可以给v-model添加 trim 修饰符。
+
+### Vue的组件化
+
+组件化是Vue、React、Angular的核心思想，也是我们后续课程的重点（包括以后实战项目）：createApp函数传入了一个对象App，这个对象其实本质上就是一个组件，也是我们应用程序的根组件；组件化提供了一种抽象，让我们可以开发出一个个独立可复用的小组件来构造我们的应用；任何的应用都会被抽象成一颗组件树。
+
+![](image/learningNote/1647571276419.png)
+
+注册组件分成两种：
+
+* 全局组件：在任何其他的组件中都可以使用的组件,全局组件需要使用我们全局创建的app来注册组件；通过**component**方法传入组件名称、组件对象即可注册一个全局组件了；之后，可以在App组件的template中直接使用这个全局组件；在通过app.component注册一个组件的时候，第一个参数是组件的名称，定义组件名的方式有两种：**使用kebab-case（短横线分割符）**,当使用 kebab-case (短横线分隔命名) 定义一个组件时，你也必须在引用这个自定义元素时使用 kebab-case；**使用PascalCase（驼峰标识符）**,当使用 PascalCase (首字母大写命名) 定义一个组件时，你在引用这个自定义元素时两种命名法都可以使用。
+* 局部组件：只有在注册的组件中才能使用的组件,以在开发中我们通常使用组件的时候采用的都是局部注册：局部注册是在我们需要使用到的组件中，通过components属性选项来进行注册；还可以有一个components选项，该components选项对应的是一个**对象**，对象中的键值对是 ***组件的名称: 组件对象。***
